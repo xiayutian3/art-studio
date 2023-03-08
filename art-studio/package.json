@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.8.2",
     "ethers": "^5.4.7",
     "next": "latest",
     "react": "18.2.0",

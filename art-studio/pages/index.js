@@ -1,8 +1,9 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { ethers } from "ethers";
-import Lock from '../contract/artifacts/contracts/Lock.sol/Lock.json'
-// console.log('Lock: ', Lock.abi);
+// import Lock from '../contract/artifacts/contracts/Lock.sol/Lock.json'
+import MyErc721 from '../contract/artifacts/contracts/NFT.sol/MyErc721.json'
+// console.log('MyErc721: ', MyErc721);
 
 export default function Home() {
 
@@ -21,12 +22,14 @@ export default function Home() {
     const signer = provider.getSigner() //拿到一个账号
     // console.log('signer: ', signer);
 
-    const lock = new ethers.Contract('0x5FbDB2315678afecb367f032d93F642f64180aa3' , Lock.abi , signer ) //传入signer， 之后都用这个账号去操作
-    const transaction = await lock.setNumber(123456);//生成交易，等待旷工挖矿
+    // 实例化合约
+    const lock = new ethers.Contract('0x5FbDB2315678afecb367f032d93F642f64180aa3' , MyErc721.abi , signer ) //传入signer， 之后都用这个账号去操作
+    const signerAcount = await signer.getAddress();//获取账户地址
+    const transaction = await lock.mint(signerAcount, 'https://learnblockchain.cn/docs/hardhat/guides/ganache-tests.html',{value:1*10**9});//生成交易，等待旷工挖矿
     const txReceipt = await transaction.wait(); //等待交易执行完
     const transferEvents = txReceipt.events;
-    const {newv} = transferEvents[0].args;
-    alert('decode data'+ newv.toString());
+    const {from,to, tokenId} = transferEvents[0].args; //合约外部调用，函数的返回值只能通过事件event去取
+    alert('from:'+ from.toString()+ 'to:' + to.toString() + 'tokenId:'+tokenId.toString());
   }
   
   return (
