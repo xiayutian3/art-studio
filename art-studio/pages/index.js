@@ -7,30 +7,30 @@ import MyErc721 from '../contract/artifacts/contracts/NFT.sol/MyErc721.json'
 
 export default function Home() {
 
-  //连接metamask钱包
-  const connect = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    await provider.send("eth_requestAccounts", []);//调起连接小狐狸并登录账号，一次性的动作，第二次点击连接没反应了，因为已经连接了
-    const signer = provider.getSigner()  //拿到一个账号
-    console.log('signer: ', signer);
-  };
+  // //连接metamask钱包
+  // const connect = async () => {
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum)
+  //   await provider.send("eth_requestAccounts", []);//调起连接小狐狸并登录账号，一次性的动作，第二次点击连接没反应了，因为已经连接了
+  //   const signer = provider.getSigner()  //拿到一个账号
+  //   console.log('signer: ', signer);
+  // };
 
-  // 连接合约,调用合约
-  const call_contract = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    await provider.send("eth_requestAccounts", []);//调起连接小狐狸并登录账号，一次性的动作，第二次点击连接没反应了，因为已经连接了
-    const signer = provider.getSigner() //拿到一个账号
-    // console.log('signer: ', signer);
+  // // 连接合约,调用合约
+  // const call_contract = async () => {
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum)
+  //   await provider.send("eth_requestAccounts", []);//调起连接小狐狸并登录账号，一次性的动作，第二次点击连接没反应了，因为已经连接了
+  //   const signer = provider.getSigner() //拿到一个账号
+  //   // console.log('signer: ', signer);
 
-    // 实例化合约
-    const lock = new ethers.Contract('0x5FbDB2315678afecb367f032d93F642f64180aa3' , MyErc721.abi , signer ) //传入signer， 之后都用这个账号去操作
-    const signerAcount = await signer.getAddress();//获取账户地址
-    const transaction = await lock.mint(signerAcount, 'https://learnblockchain.cn/docs/hardhat/guides/ganache-tests.html',{value:1*10**9});//生成交易，等待旷工挖矿
-    const txReceipt = await transaction.wait(); //等待交易执行完
-    const transferEvents = txReceipt.events;
-    const {from,to, tokenId} = transferEvents[0].args; //合约外部调用，函数的返回值只能通过事件event去取
-    alert('from:'+ from.toString()+ 'to:' + to.toString() + 'tokenId:'+tokenId.toString());
-  }
+  //   // 实例化合约
+  //   const lock = new ethers.Contract('0x5FbDB2315678afecb367f032d93F642f64180aa3' , MyErc721.abi , signer ) //传入signer， 之后都用这个账号去操作
+  //   const signerAcount = await signer.getAddress();//获取账户地址
+  //   const transaction = await lock.mint(signerAcount, 'https://learnblockchain.cn/docs/hardhat/guides/ganache-tests.html',{value:1*10**9});//生成交易，等待旷工挖矿
+  //   const txReceipt = await transaction.wait(); //等待交易执行完
+  //   const transferEvents = txReceipt.events;
+  //   const {from,to, tokenId} = transferEvents[0].args; //合约外部调用，函数的返回值只能通过事件event去取
+  //   alert('from:'+ from.toString()+ 'to:' + to.toString() + 'tokenId:'+tokenId.toString());
+  // }
   
   return (
     <div className={styles.container}>
@@ -40,14 +40,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className={styles.grid}>
-          <button className={styles.card} onClick={connect}>
-            <p>连接钱包</p>
-          </button>
-          <button className={styles.card} onClick={call_contract}>
-            <p>合约调用</p>
-          </button>
-        </div>
+        
       </main>
 
       <footer>
