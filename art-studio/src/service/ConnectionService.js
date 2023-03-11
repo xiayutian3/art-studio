@@ -26,6 +26,7 @@ export const trying = async () => {
     return {success:false};
 }
 
+// 链接metamask钱包
 export const connect = async () => {
     let {success} = await trying();//尝试连接区块链网络
     if(success)

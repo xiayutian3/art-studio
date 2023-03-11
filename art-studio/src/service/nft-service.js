@@ -8,8 +8,11 @@ import axios from "axios";
 
 // 某个账号的nft总数
 export const owned = async () => {
-  const { success, provider, signer } = trying(); //登陆账号，链接小狐狸
-  if (!success) NotificationManager.warning("", "network not right!", 6000);
+  const { success, provider, signer } = await trying(); //登陆账号，链接小狐狸
+  if (!success){
+    NotificationManager.warning("", "network not right!", 6000);
+    return {success:false}
+  } 
 
   const address = await signer.getAddress();
 
@@ -19,7 +22,24 @@ export const owned = async () => {
     provider
   );//只能使用合约的读方法
 
-  const count = await nft.balanceOf(address);
+  let count = await nft.balanceOf(address);
+  count = count.toNumber()
+  // console.log('count: ', count);
+  //组装所有token的Meta数据，在页面渲染
+  const rst = await Promise.all(
+    Array.from({length:count}).map(async(v,i)=>{
+      const tokenId = await nft.tokenOfOwnerByIndex(address,i)
+      const tokenUri = await nft.tokenURI(tokenId)
+      const meta = await axios.get(tokenUri)
+      return {
+        ...meta.data,
+        tokenId,
+        tokenUri
+      }
+    })
+  )
+
+  return {success:true,data:rst}
 };
 // 合约的nft总数
 export const totalsupply = async () => {
@@ -35,23 +55,26 @@ export const totalsupply = async () => {
 };
 
 // 铸造nft函数
-export const mintNFT = async (url) => {
-  const { success, provider, signer } = trying(); //登陆账号，链接小狐狸
-  if (!success) NotificationManager.warning("", "network not right!", 6000);
+export const mintNFT = async (tokenUri) => {
+  const { success, provider, signer } = await trying(); //登陆账号，链接小狐狸
+  if (!success){
+    NotificationManager.warning("", "network not right!", 6000);
+    return {success:false}
+  } 
 
   let nft = new ethers.Contract(
     NetworkConfiguration.nftAddress,
     NFT.abi,
     signer
   ); // signer 实例化的合约可以修改状态
+
   const address = await signer.getAddress();
   let transaction = await nft
     .connect(signer)
-    .mint(address, url, { value: 100000000000 });
+    .mint(address, tokenUri, { value: 1*10**9 });
   let tx = await transaction.wait();
-  debugger;
   let event = tx.events[0];//获取事件消息数据
   let value = event.args[2];
-  console.log(value);
   let tokenId = value.toNumber();
+  return {success:true, tokenId}
 };

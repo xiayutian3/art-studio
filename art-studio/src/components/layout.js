@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 // import MyErc721 from "../artifacts/contracts/NFT.sol/MyErc721.json";
 import Connect from "./Connect";
+import Test from "./Test";
 
 function Layout({ children }) {
  
@@ -20,14 +21,15 @@ function Layout({ children }) {
               Sell Digital Asset
             </a>
          
-            <a href="/my-assets"  >
-              My Digital Asset
+            <a href="/mynft"  >
+              My nft
             </a>
          
-            <a href="/creator-dashboard"  >
-              Creator Dashboard
+            <a href="/mintor"  >
+              铸币
            </a>
            <Connect/>
+           <Test/>
       </nav>
 
 

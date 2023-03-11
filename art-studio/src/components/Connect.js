@@ -6,12 +6,12 @@ import { connect } from '../service/ConnectionService'
 const buttonCss = {
   "float": "left",
   "display": "block",
-  "text-align": "center",
+  "textAlign": "center",
   "padding": "14px 16px",
-  "text-decoration": "none",
-  "font-size": "17px",
-  "list-style": "none",
-  "margin-right": "2rem",
+  "textDecoration": "none",
+  "fontSize": "17px",
+  "listStyle": "none",
+  "marginRight": "2rem",
   "cursor": "pointer"
 };
 
