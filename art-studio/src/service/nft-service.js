@@ -73,6 +73,7 @@ export const mintNFT = async (tokenUri) => {
     .connect(signer)
     .mint(address, tokenUri, { value: 1*10**9 });
   let tx = await transaction.wait();
+  console.log('tx: ', tx);
   let event = tx.events[0];//获取事件消息数据
   let value = event.args[2];
   let tokenId = value.toNumber();

@@ -22,7 +22,7 @@ function Layout({ children }) {
             </a>
          
             <a href="/mynft"  >
-              My nft
+              我的藏品
             </a>
          
             <a href="/mintor"  >

@@ -3,6 +3,7 @@ node_modules
 /dist
 artifacts
 .deps
+logs
 
 # local env files
 .env.local

@@ -1,7 +1,7 @@
 //网络配置
 export const NetworkConfiguration = {
   chainId: 0x7a69, //在哪个区块链上运行  (hardhat node  本地区块链 31337 的16进制 0x7A69)
-  nftAddress: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512", //智能合约的地址
+  nftAddress: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", //智能合约的地址
   marketAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3", //交易平台的地址
   params: [ // 强制metamask 配置网络需要的数据
     {

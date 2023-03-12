@@ -10,39 +10,69 @@ const clientIpfs = create({
   apiPath: "/api/v0",
 });
 
+// arweave上传储存相关
+import {imageToArweave,toArweave} from "../service/arweave-service"
+
 function NftMinter() {
   const router = useRouter()
   // nft元数据
   const [meta, updateMeta] = useState({ name: "", description: "" });
   const [ uri, updateUri ] = useState("");
 
-  //获取图片上传的cid和uri
+  // ipfs的上传功能**************************
+
+  // //获取图片上传的cid和uri
+  // const onChange = async (e) => {
+  //   const image = e.target.files[0];
+  //   const added = await clientIpfs.add(image);
+  //   const cid = added.path; //获取图片上传ipfs服务器后的cid
+  //   const imageUri = "http://127.0.0.1:8080/ipfs/" + cid; //访问图片的路径
+  //   // http://127.0.0.1:8080/ipfs/QmQF2G6g9zQG2fQpEHPTEhscMTMTC5QqimHg4TqCjs7TQA
+  //   updateUri(imageUri);
+  // };
+
+  // // 构建元数据，上传ipfs
+  // const mint = async () => {
+  //   // http://127.0.0.1:8080/ipfs/QmQ64DtNoRf5Lxvse9n3dKU2KpnSEQCZqkSLvfje3KU9Vu
+  //   // http://127.0.0.1:8080/ipfs/QmRWZbfqa36BVZPqxrPwy6KgE3T5vW9d8zzyJkXhUayQSh
+  //   // http://127.0.0.1:8080/ipfs/QmeRS1qqzoCgxNTCe1g8ZkvvNm1XCnrLX2c1nGDszQSGnx
+  //   const data = { ...meta, imageUri: uri };
+  //   const json = JSON.stringify(data);
+  //   const added = await clientIpfs.add(json);
+  //   const tokenUri = "http://127.0.0.1:8080/ipfs/" + added.path;
+  //   // console.log('tokenUri: ', tokenUri);
+  //   const {success,tokenId} = await mintNFT(tokenUri) //创建nft
+  //   if(success){
+  //     router.push("/mynft") //跳转nft展示界面
+  //     // console.log('tokenId: ', tokenId);
+  //   }
+    
+  // };
+
+  // ipfs的上传功能**************************
+
+
+  // arweave的上传功能**************************
+
   const onChange = async (e) => {
     const image = e.target.files[0];
-    const added = await clientIpfs.add(image);
-    const cid = added.path; //获取图片上传ipfs服务器后的cid
-    const imageUri = "http://127.0.0.1:8080/ipfs/" + cid; //访问图片的路径
-    // http://127.0.0.1:8080/ipfs/QmQF2G6g9zQG2fQpEHPTEhscMTMTC5QqimHg4TqCjs7TQA
+    const imageUri = await imageToArweave(image);
+    console.log('arw imageUri: ', imageUri);
     updateUri(imageUri);
   };
-
-  // 构建元数据，上传ipfs
   const mint = async () => {
-    // http://127.0.0.1:8080/ipfs/QmQ64DtNoRf5Lxvse9n3dKU2KpnSEQCZqkSLvfje3KU9Vu
-    // http://127.0.0.1:8080/ipfs/QmRWZbfqa36BVZPqxrPwy6KgE3T5vW9d8zzyJkXhUayQSh
-    // http://127.0.0.1:8080/ipfs/QmeRS1qqzoCgxNTCe1g8ZkvvNm1XCnrLX2c1nGDszQSGnx
     const data = { ...meta, imageUri: uri };
     const json = JSON.stringify(data);
-    const added = await clientIpfs.add(json);
-    const tokenUri = "http://127.0.0.1:8080/ipfs/" + added.path;
-    // console.log('tokenUri: ', tokenUri);
+    const tokenUri = await toArweave(json);
+    console.log('arw tokenUri: ', tokenUri);
     const {success,tokenId} = await mintNFT(tokenUri) //创建nft
     if(success){
       router.push("/mynft") //跳转nft展示界面
-      // console.log('tokenId: ', tokenId);
     }
     
   };
+
+  // arweave的上传功能**************************
 
   return (
     <div className={styles.CreatorWrapper}>
