@@ -17,8 +17,8 @@ function Layout({ children }) {
               Home
             </a>
           
-            <a href="/create-item"  >
-              Sell Digital Asset
+            <a href="/blog"  >
+              博文发表
             </a>
          
             <a href="/mynft"  >

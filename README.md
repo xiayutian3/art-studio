@@ -9,6 +9,6 @@
 ##### 4.aweave （本身是一个区块链，但是它还附带有本地永久存储的服务，存储功能和ipfs是一样的）本地服务
 
 - 启动本地节点 npx arlocal  
-- 获取本地测试币：http://127.0.0.1:1984/mint/<address>/<balance>   
+- 获取本地测试币（精度12位数）：http://127.0.0.1:1984/mint/<address>/<balance>   
 - 例如：http://localhost:1984/mint/QyQDqpCWTTfjy1pOoNIwOJYV_ODKM-E79pf5R8PaMD0/1000000000000000
 
